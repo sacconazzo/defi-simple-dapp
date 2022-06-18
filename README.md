@@ -2,6 +2,8 @@
 
 Using Metamask Web3 injected & interact with smartcontracts
 
+ReactJS & Chakra-UI WebApp
+
 ## Back-end
 
 ### Refs
