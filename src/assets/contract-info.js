@@ -1,5 +1,5 @@
 const Contract = {
-  cnt: process.env.contract,
+  cnt: '0x0000000000000000000000000000000000000000', //TODO contract ref
   abi: [
     {
       inputs: [
