@@ -45,7 +45,7 @@ export default function TitleBar(props) {
             <Image w={30} src={Logo}></Image>
           </Box>
           <Text p={1} fontWeight="bold">
-            Caramel finance
+            DeFi demo App
           </Text>
         </HStack>
         <Flex alignItems={'center'}>

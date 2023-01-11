@@ -13,7 +13,7 @@ export default function Info(props) {
     <Modal onClose={props.onClose} isOpen={props.isOpen} isCentered>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Caramel finance</ModalHeader>
+        <ModalHeader>DeFi demo App</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <p>Hi, here a super simple web3 joke to earn:</p>

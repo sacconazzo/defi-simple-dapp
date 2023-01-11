@@ -1,5 +1,5 @@
 const Contract = {
-  cnt: '0x3657c8F5e4bf726514297d6f91b40f558CfF0be0',
+  cnt: process.env.contract,
   abi: [
     {
       inputs: [

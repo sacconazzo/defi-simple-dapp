@@ -202,7 +202,7 @@ export default function Core() {
           <TitleBar userInfo={userInfo} onConnect={onConnect} />
           <Stack spacing={8} mx={'auto'} w={['90vw', 450, 550]} py={12} px={6}>
             <Stack pt={50} align={'center'}>
-              <Heading fontSize={'4xl'}>Caramel finance</Heading>
+              <Heading fontSize={'4xl'}>DeFi demo App</Heading>
               <Text
                 fontSize={'lg'}
                 color={useColorModeValue('gray.500', 'gray.600')}

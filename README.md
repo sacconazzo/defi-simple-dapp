@@ -6,12 +6,9 @@ ReactJS & Chakra-UI WebApp
 
 ## Back-end
 
-### Refs
-
-https://bscscan.com/address/0x3657c8f5e4bf726514297d6f91b40f558cff0be0
-
 ## Demo
-https://caramel.finance
+
+https://20percent.giona.tech
 
 ## Learn More
 

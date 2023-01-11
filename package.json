@@ -1,8 +1,8 @@
 {
   "name": "defi-simple-dapp",
-  "version": "0.2.4",
+  "version": "0.3.0",
   "private": true,
-  "homepage": "https://caramel.finance",
+  "homepage": "https://20percent.giona.tech",
   "dependencies": {
     "@chakra-ui/icons": "^2.0.1",
     "@chakra-ui/react": "^2.1.0",
