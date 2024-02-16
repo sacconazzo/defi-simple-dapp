@@ -2,6 +2,8 @@
   "name": "defi-simple-dapp",
   "version": "0.3.0",
   "private": true,
+  "licence": "MIT",
+  "author": "Giona Righini (sacconazzo)",
   "homepage": "https://20percent.giona.tech",
   "dependencies": {
     "@chakra-ui/icons": "^2.0.1",
