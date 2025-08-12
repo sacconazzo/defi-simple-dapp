@@ -60,7 +60,7 @@ export default function TitleBar(props) {
         <Flex alignItems={'center'}>
           <Stack direction={'row'} spacing={5}>
             <ColorModeSwitcher />
-            <Menu>
+            <Menu autoSelect={false}>
               <MenuButton
                 as={Button}
                 // rounded={'full'}
