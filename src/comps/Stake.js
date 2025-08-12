@@ -49,18 +49,18 @@ export default function Stake(props) {
     await props.contract.methods.stake().send({
       from: info.account,
       value: val,
-      gasPrice: web3.utils.toWei('3', 'gwei'),
-      gas: '80752',
+      // gasPrice: web3.utils.toWei('3', 'gwei'),
+      // gas: '80752',
     });
   };
 
   const onRedeem = async () => {
-    const currentProvider = props.detectCurrentProvider();
-    const web3 = new Web3(currentProvider);
+    // const currentProvider = props.detectCurrentProvider();
+    // const web3 = new Web3(currentProvider);
     await props.contract.methods.redeem().send({
       from: info.account,
-      gasPrice: web3.utils.toWei('3', 'gwei'),
-      gas: '80752',
+      // gasPrice: web3.utils.toWei('3', 'gwei'),
+      // gas: '80752',
     });
   };
 
