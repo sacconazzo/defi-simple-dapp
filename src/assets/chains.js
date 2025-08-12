@@ -33,7 +33,7 @@ const CHAINS = [
     blockExplorerUrls: ['https://polygonscan.com/'],
     icon: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/polygon/info/logo.png',
     priceSymbol: 'POL',
-    contractAddress: process.env.POLYGON_CONTRACT_ADDRESS,
+    contractAddress: process.env.REACT_APP_POLYGON_CONTRACT_ADDRESS,
   },
   {
     id: 42161,
@@ -44,7 +44,7 @@ const CHAINS = [
     blockExplorerUrls: ['https://arbiscan.io/'],
     icon: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/arbitrum/info/logo.png',
     priceSymbol: 'ETH',
-    contractAddress: process.env.ARBITRUM_CONTRACT_ADDRESS,
+    contractAddress: process.env.REACT_APP_ARBITRUM_CONTRACT_ADDRESS,
   },
   {
     id: 43114,
@@ -55,7 +55,7 @@ const CHAINS = [
     blockExplorerUrls: ['https://snowtrace.io/'],
     icon: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/avalanchec/info/logo.png',
     priceSymbol: 'AVAX',
-    contractAddress: process.env.AVALANCHE_CONTRACT_ADDRESS,
+    contractAddress: process.env.REACT_APP_AVALANCHE_CONTRACT_ADDRESS,
   },
   {
     id: 10,
@@ -66,7 +66,7 @@ const CHAINS = [
     blockExplorerUrls: ['https://optimistic.etherscan.io/'],
     icon: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/optimism/info/logo.png',
     priceSymbol: 'ETH',
-    contractAddress: process.env.OPTIMISM_CONTRACT_ADDRESS,
+    contractAddress: process.env.REACT_APP_OPTIMISM_CONTRACT_ADDRESS,
   },
   {
     id: 8453,
@@ -77,7 +77,18 @@ const CHAINS = [
     blockExplorerUrls: ['https://basescan.org/'],
     icon: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/base/info/logo.png',
     priceSymbol: 'ETH',
-    contractAddress: process.env.BASE_CONTRACT_ADDRESS,
+    contractAddress: process.env.REACT_APP_BASE_CONTRACT_ADDRESS,
+  },
+  {
+    id: 324,
+    key: 'zksync-era',
+    chainName: 'zkSync Era',
+    nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
+    rpcUrls: ['https://mainnet.era.zksync.io'],
+    blockExplorerUrls: ['https://explorer.zksync.io/'],
+    icon: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/zksync/info/logo.png',
+    priceSymbol: 'ETH',
+    contractAddress: process.env.REACT_APP_ZKSYNC_ERA_CONTRACT_ADDRESS,
   },
 ];
 
