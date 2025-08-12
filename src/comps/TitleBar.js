@@ -72,7 +72,11 @@ export default function TitleBar(props) {
                 <Center p={2}>
                   {!props.userInfo.account && (
                     <Tooltip label="Please open & connect MetaMask">
-                      <Image size={'2xl'} src={MetaLogo} />
+                      <Image
+                        size={'2xl'}
+                        src={MetaLogo}
+                        onClick={() => window.open('https://metamask.io/')}
+                      />
                     </Tooltip>
                   )}
                   {props.userInfo.account && (

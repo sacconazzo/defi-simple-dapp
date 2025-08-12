@@ -79,7 +79,6 @@ export default function Core() {
       console.log(
         'Non-Ethereum browser detected. You should consider trying MetaMask!'
       );
-      window.open('https://metamask.io/');
     }
     return provider;
   };
