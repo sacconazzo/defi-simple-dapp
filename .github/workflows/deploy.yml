@@ -24,6 +24,9 @@ jobs:
 
       - name: Build project
         run: yarn build
+        env:
+          GENERATE_SOURCEMAP: 'false'
+          REACT_APP_CONTRACT_ADDRESS: ${{ vars.CONTRACT_ADDRESS }}
 
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v1

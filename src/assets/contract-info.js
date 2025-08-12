@@ -1,5 +1,5 @@
 const Contract = {
-  cnt: '0x0000000000000000000000000000000000000000', //TODO contract ref
+  cnt: process.env.REACT_APP_CONTRACT_ADDRESS,
   abi: [
     {
       inputs: [
