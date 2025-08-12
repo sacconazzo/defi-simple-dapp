@@ -13,13 +13,14 @@ import { InfoIcon } from '@chakra-ui/icons';
 import { useState, useEffect } from 'react';
 // import ReactDOMServer from 'react-dom/server';
 import Web3 from 'web3';
+import { Helmet } from 'react-helmet-async';
 
 import TitleBar from './TitleBar';
 import Stake from './Stake';
 import Info from './Info';
 
 import Contract from '../assets/contract-info';
-import Network from '../assets/network-info';
+import CHAINS from '../assets/chains';
 
 let contract;
 let refresh;
@@ -39,6 +40,9 @@ export default function Core() {
     onClose: onInfoClose,
   } = useDisclosure();
   const [isConnected, setIsConnected] = useState(false);
+  const [selectedChainId, setSelectedChainId] = useState(
+    Number(localStorage.getItem('selectedChainId') || 1)
+  );
   const [userInfo, setUserInfo] = useState({
     balance: 0,
     account: undefined,
@@ -69,6 +73,12 @@ export default function Core() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refreshCounter]);
 
+  useEffect(() => {
+    // Quando cambia la chain selezionata, ricollega
+    if (isConnected) onConnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedChainId]);
+
   const detectCurrentProvider = () => {
     let provider;
     if (window.ethereum) {
@@ -83,10 +93,10 @@ export default function Core() {
     return provider;
   };
 
-  const getPrice = async () => {
+  const getPrice = async priceSymbol => {
     try {
       const data = await fetch(
-        'https://min-api.cryptocompare.com/data/price?fsym=BNB&tsyms=USD'
+        `https://min-api.cryptocompare.com/data/price?fsym=${priceSymbol}&tsyms=USD`
       );
       const price = await data.json();
       return price.USD;
@@ -95,16 +105,36 @@ export default function Core() {
     }
   };
 
-  const changeChain = async web3 => {
-    return window.ethereum.request({
-      method: 'wallet_addEthereumChain',
-      params: [
-        {
-          ...Network,
-          chainId: web3.utils.toHex(Network.chainId),
-        },
-      ],
-    });
+  const currentChain =
+    CHAINS.find(c => c.id === Number(selectedChainId)) || CHAINS[0];
+
+  const changeChain = async (web3, targetChain) => {
+    const hexChainId = web3.utils.toHex(targetChain.id);
+    try {
+      // prova a switchare se già presente
+      await window.ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId: hexChainId }],
+      });
+    } catch (switchError) {
+      // 4902: catena non presente, aggiungila
+      if (switchError && switchError.code === 4902) {
+        await window.ethereum.request({
+          method: 'wallet_addEthereumChain',
+          params: [
+            {
+              chainId: hexChainId,
+              chainName: targetChain.chainName,
+              nativeCurrency: targetChain.nativeCurrency,
+              rpcUrls: targetChain.rpcUrls,
+              blockExplorerUrls: targetChain.blockExplorerUrls,
+            },
+          ],
+        });
+      } else {
+        throw switchError;
+      }
+    }
   };
 
   const onConnect = async () => {
@@ -124,15 +154,15 @@ export default function Core() {
         const web3 = new Web3(currentProvider);
         const userAccount = await web3.eth.getAccounts();
         const chainId = await web3.eth.getChainId();
-        if (Network.chainId !== chainId) await changeChain(web3);
+        if (currentChain.id !== chainId) await changeChain(web3, currentChain);
         const account = userAccount[0];
         const ethBalance = web3.utils.fromWei(
           await web3.eth.getBalance(account),
           'ether'
         );
 
-        if (!contract)
-          contract = new web3.eth.Contract(Contract.abi, Contract.cnt);
+        const contractAddress = currentChain.contractAddress || Contract.cnt;
+        contract = new web3.eth.Contract(Contract.abi, contractAddress);
         const status = await contract.methods.status().call({ from: account });
         const staked = formatVal(
           Number(web3.utils.fromWei(status.original_, 'ether'))
@@ -141,12 +171,12 @@ export default function Core() {
           (Number(status.balance_) / Number(status.original_) / 1.2) * 100;
         const isFilled = status.filled_;
 
-        const price = await getPrice();
+        const price = await getPrice(currentChain.priceSymbol);
 
         saveUserInfo(
           ethBalance,
           account,
-          chainId,
+          currentChain.id,
           price,
           staked,
           isFilled,
@@ -190,6 +220,11 @@ export default function Core() {
     setIsConnected(true);
   };
 
+  const onSelectChain = async chainId => {
+    localStorage.setItem('selectedChainId', String(chainId));
+    setSelectedChainId(Number(chainId));
+  };
+
   return (
     <Flex
       align={'center'}
@@ -198,10 +233,39 @@ export default function Core() {
     >
       <Box textAlign="center" minW={'100vw'} overflowY="auto">
         <Grid h="100vh">
-          <TitleBar userInfo={userInfo} onConnect={onConnect} />
+          <Helmet>
+            <title>DeFi Demo App — Stake / Earn / Enjoy</title>
+            <meta
+              name="description"
+              content="Simple staking dApp. Stake native tokens and redeem with +20% when the pool fills. Multichain, minimal UI."
+            />
+            <link rel="canonical" href="https://caramel.finance/" />
+            <meta
+              property="og:title"
+              content="DeFi Demo App — Stake / Earn / Enjoy"
+            />
+            <meta
+              property="og:description"
+              content="Simple staking dApp. Stake native tokens and redeem with +20%."
+            />
+            <meta property="og:url" content="https://caramel.finance/" />
+            <meta
+              property="og:image"
+              content={process.env.PUBLIC_URL + '/logo512.png'}
+            />
+            <meta name="twitter:card" content="summary_large_image" />
+          </Helmet>
+          <TitleBar
+            userInfo={userInfo}
+            onConnect={onConnect}
+            chain={currentChain}
+            chains={CHAINS}
+            onSelectChain={onSelectChain}
+          />
+
           <Stack spacing={8} mx={'auto'} w={['90vw', 450, 550]} py={12} px={6}>
             <Stack pt={50} align={'center'}>
-              <Heading fontSize={'4xl'}>DeFi demo App</Heading>
+              <Heading fontSize={'4xl'}>DeFi Demo App</Heading>
               <Text
                 fontSize={'lg'}
                 color={useColorModeValue('gray.500', 'gray.600')}
@@ -221,12 +285,17 @@ export default function Core() {
               contract={contract}
               detectCurrentProvider={detectCurrentProvider}
               onConnect={onConnect}
+              chain={currentChain}
             />
             <Stack align={'center'}>
               <Text fontSize={'lg'} color={'gray.600'}>
                 see the{' '}
                 <Link
-                  href={`https://bscscan.com/address/${Contract.cnt}`}
+                  href={`${
+                    (currentChain.blockExplorerUrls &&
+                      currentChain.blockExplorerUrls[0]) ||
+                    'https://etherscan.io/'
+                  }address/${currentChain.contractAddress || Contract.cnt}`}
                   isExternal
                   color={'blue.400'}
                 >

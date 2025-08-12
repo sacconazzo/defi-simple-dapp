@@ -13,7 +13,7 @@ export default function Info(props) {
     <Modal onClose={props.onClose} isOpen={props.isOpen} isCentered>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>DeFi demo App</ModalHeader>
+        <ModalHeader>DeFi Demo App</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <p>Hi, here a super simple web3 joke to earn:</p>
@@ -34,7 +34,9 @@ export default function Info(props) {
           <br />
           <p>Joke based on ponzi scheme. It's new and it works.</p>
           <br />
-          <p>You can see the contract code on BSC at the link below.</p>
+          <p>
+            You can see the contract code on Ethereum Mainnet at the link below.
+          </p>
           <br />
           <p> Enjoy ✌️</p>
         </ModalBody>

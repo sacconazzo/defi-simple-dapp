@@ -26,7 +26,8 @@ jobs:
         run: yarn build
         env:
           GENERATE_SOURCEMAP: 'false'
-          REACT_APP_CONTRACT_ADDRESS: ${{ secrets.CONTRACT_ADDRESS }}
+          REACT_APP_ETH_CONTRACT_ADDRESS: ${{ secrets.ETH_CONTRACT_ADDRESS }}
+          REACT_APP_BNB_CONTRACT_ADDRESS: ${{ secrets.BNB_CONTRACT_ADDRESS }}
 
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v1

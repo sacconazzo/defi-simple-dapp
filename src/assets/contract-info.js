@@ -1,5 +1,5 @@
 const Contract = {
-  cnt: process.env.REACT_APP_CONTRACT_ADDRESS,
+  cnt: process.env.REACT_APP_ETH_CONTRACT_ADDRESS,
   abi: [
     {
       inputs: [

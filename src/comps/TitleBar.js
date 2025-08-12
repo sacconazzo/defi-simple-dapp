@@ -14,6 +14,7 @@ import {
   Text,
   AvatarBadge,
   MenuList,
+  MenuItem,
   useColorModeValue,
 } from '@chakra-ui/react';
 // import Blockies from 'react-blockies';
@@ -21,11 +22,19 @@ import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
 
 import { ColorModeSwitcher } from './ColorModeSwitcher';
 
-import LogoBsc from '../assets/bsc.svg';
 import Logo from '../assets/logo.png';
 import MetaLogo from '../assets/metamask.svg';
 
 export default function TitleBar(props) {
+  const currentChain = props.chain;
+  const explorer =
+    (currentChain &&
+      currentChain.blockExplorerUrls &&
+      currentChain.blockExplorerUrls[0]) ||
+    'https://etherscan.io/';
+  const getChainIcon = chain => {
+    return chain.icon;
+  };
   return (
     <Box>
       <Flex
@@ -45,7 +54,7 @@ export default function TitleBar(props) {
             <Image w={30} src={Logo}></Image>
           </Box>
           <Text p={1} fontWeight="bold">
-            DeFi demo App
+            DeFi Demo App
           </Text>
         </HStack>
         <Flex alignItems={'center'}>
@@ -61,7 +70,7 @@ export default function TitleBar(props) {
 
                 // minW={0}
               >
-                <Avatar size={'sm'} src={LogoBsc}>
+                <Avatar size={'sm'} src={getChainIcon(currentChain)}>
                   <AvatarBadge
                     boxSize="1.25em"
                     bg={props.userInfo.account ? 'green.500' : 'tomato'}
@@ -91,14 +100,30 @@ export default function TitleBar(props) {
                     />
                   )}
                 </Center>
-                <Center>BNB Smart Chain</Center>
+                <Center>{currentChain?.chainName || 'Ethereum Mainnet'}</Center>
+                {/* Selettore chain */}
+                <Stack pt={3} spacing={2}>
+                  {props.chains
+                    ?.filter(c => !!c.contractAddress)
+                    ?.map(chain => (
+                      <MenuItem
+                        key={chain.id}
+                        onClick={() => props.onSelectChain?.(chain.id)}
+                      >
+                        <HStack>
+                          <Avatar size={'xs'} src={getChainIcon(chain)} />
+                          <Text>{chain.chainName}</Text>
+                        </HStack>
+                      </MenuItem>
+                    ))}
+                </Stack>
                 <Center pt={3}>
                   {!props.userInfo.account && (
                     <Text>Web3 wallet not connected</Text>
                   )}
                   <Link
                     isExternal
-                    href={`https://bscscan.com/address/${props.userInfo.account}`}
+                    href={`${explorer}address/${props.userInfo.account}`}
                   >
                     {props.userInfo.account}
                   </Link>

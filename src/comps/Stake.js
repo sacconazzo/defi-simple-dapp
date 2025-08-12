@@ -24,6 +24,7 @@ export default function Stake(props) {
 
   const info = props.userInfo;
   const formatVal = props.formatVal;
+  const nativeSymbol = props.chain?.nativeCurrency?.symbol || 'ETH';
 
   const labelStyles = {
     mt: '2',
@@ -48,16 +49,18 @@ export default function Stake(props) {
     await props.contract.methods.stake().send({
       from: info.account,
       value: val,
-      // gasPrice: "0",
-      // gas: "35000"
+      gasPrice: web3.utils.toWei('3', 'gwei'),
+      gas: '80752',
     });
   };
 
   const onRedeem = async () => {
+    const currentProvider = props.detectCurrentProvider();
+    const web3 = new Web3(currentProvider);
     await props.contract.methods.redeem().send({
       from: info.account,
-      // gasPrice: "0",
-      // gas: "35000"
+      gasPrice: web3.utils.toWei('3', 'gwei'),
+      gas: '80752',
     });
   };
 
@@ -76,7 +79,7 @@ export default function Stake(props) {
                 <InputLeftElement
                   pointerEvents="none"
                   color={col1}
-                  children="BNB"
+                  children={nativeSymbol}
                 />
                 <Input
                   textAlign={'right'}
@@ -144,7 +147,7 @@ export default function Stake(props) {
             </Button>
             {props.isConnected && (
               <Text color={'gray.500'} noOfLines={1} align={'right'}>
-                Stake BNB {props.value} ={' '}
+                Stake {nativeSymbol} {props.value} ={' '}
                 {(props.value * info.price).toLocaleString('en-US', {
                   style: 'currency',
                   currency: 'USD',
@@ -153,7 +156,7 @@ export default function Stake(props) {
             )}
             {props.isConnected && (
               <Text color="gray.500" noOfLines={1} align={'right'}>
-                Redeem BNB {formatVal(props.value * 1.2)} ={' '}
+                Redeem {nativeSymbol} {formatVal(props.value * 1.2)} ={' '}
                 {(props.value * 1.2 * info.price).toLocaleString('en-US', {
                   style: 'currency',
                   currency: 'USD',
@@ -166,21 +169,21 @@ export default function Stake(props) {
               <Divider />
               <Stack>
                 <Text color={col1} noOfLines={1} align={'right'}>
-                  Staked BNB {formatVal(info.staked)} ={' '}
+                  Staked {nativeSymbol} {formatVal(info.staked)} ={' '}
                   {(info.staked * info.price).toLocaleString('en-US', {
                     style: 'currency',
                     currency: 'USD',
                   })}
                 </Text>
                 <Text color={col1} noOfLines={1} align={'right'}>
-                  + Reward BNB {formatVal(info.staked * 0.2)} ={' '}
+                  + Reward {nativeSymbol} {formatVal(info.staked * 0.2)} ={' '}
                   {(info.staked * 0.2 * info.price).toLocaleString('en-US', {
                     style: 'currency',
                     currency: 'USD',
                   })}
                 </Text>
                 <Text color={col2} noOfLines={1} align={'right'}>
-                  {info.isFilled ? 'Redeemable' : 'Redeem'} BNB{' '}
+                  {info.isFilled ? 'Redeemable' : 'Redeem'} {nativeSymbol}{' '}
                   {formatVal(info.staked * 1.2)} ={' '}
                   {(info.staked * 1.2 * info.price).toLocaleString('en-US', {
                     style: 'currency',

@@ -5,7 +5,41 @@
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <meta name="description" content="DeFi demo App" />
+    <meta name="application-name" content="DeFi Demo App" />
+    <meta
+      name="description"
+      content="Simple staking dApp. Stake native tokens and redeem with +20% when the pool fills. Multichain, minimal UI."
+    />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://caramel.finance/" />
+
+    <!-- Preconnect to APIs used at runtime -->
+    <link
+      rel="preconnect"
+      href="https://min-api.cryptocompare.com"
+      crossorigin
+    />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="DeFi Demo App — Stake / Earn / Enjoy" />
+    <meta
+      property="og:description"
+      content="Simple staking dApp. Stake native tokens and redeem with +20%."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://caramel.finance/" />
+    <meta property="og:image" content="%PUBLIC_URL%/logo512.png" />
+    <meta property="og:site_name" content="DeFi Demo App" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="DeFi Demo App — Stake / Earn / Enjoy" />
+    <meta
+      name="twitter:description"
+      content="Simple staking dApp. Stake native tokens and redeem with +20%."
+    />
+    <meta name="twitter:image" content="%PUBLIC_URL%/logo512.png" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
@@ -21,7 +55,38 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>DeFi demo App</title>
+    <title>DeFi Demo App — Stake / Earn / Enjoy</title>
+
+    <!-- Structured data: WebApplication -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "DeFi Demo App",
+        "applicationCategory": "BlockchainApplication",
+        "operatingSystem": "Web",
+        "url": "https://caramel.finance/",
+        "image": "https://caramel.finance/logo512.png",
+        "description": "Simple staking dApp: stake native tokens and redeem with +20% when the pool fills.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    </script>
+
+    <!-- Structured data: Organization -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "DeFi Demo App",
+        "url": "https://caramel.finance/",
+        "logo": "https://caramel.finance/logo512.png",
+        "sameAs": []
+      }
+    </script>
   </head>
 
   <body>

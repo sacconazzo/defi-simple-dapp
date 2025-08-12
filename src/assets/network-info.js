@@ -1,9 +1,9 @@
 const Network = {
-  chainId: 56,
-  chainName: 'BSC Mainnet',
-  nativeCurrency: { name: 'BNB', decimals: 18, symbol: 'BNB' },
-  rpcUrls: ['https://bsc-dataseed1.ninicoin.io/'],
-  blockExplorerUrls: ['https://bscscan.com/'],
+  chainId: 1,
+  chainName: 'Ethereum Mainnet',
+  nativeCurrency: { name: 'Ether', decimals: 18, symbol: 'ETH' },
+  rpcUrls: ['https://eth.llamarpc.com'],
+  blockExplorerUrls: ['https://etherscan.io/'],
 };
 
 export default Network;
