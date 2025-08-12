@@ -28,6 +28,8 @@ jobs:
           GENERATE_SOURCEMAP: 'false'
           REACT_APP_ETH_CONTRACT_ADDRESS: ${{ secrets.ETH_CONTRACT_ADDRESS }}
           REACT_APP_BNB_CONTRACT_ADDRESS: ${{ secrets.BNB_CONTRACT_ADDRESS }}
+          REACT_APP_ZKSYNC_ERA_CONTRACT_ADDRESS: ${{ secrets.ZKE_CONTRACT_ADDRESS }}
+          REACT_APP_ARBITRUM_CONTRACT_ADDRESS: ${{ secrets.ARB_CONTRACT_ADDRESS }}
 
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v1
