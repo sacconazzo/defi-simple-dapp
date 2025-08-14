@@ -65,19 +65,27 @@ const LiveStats = ({ userInfo, chain }) => {
       // Utenti e rewards (solo se API key presente)
       const explorerApiUrl = chainInfo.explorerApiUrl;
       const apiKey = chainInfo.explorerApiKey;
+      const chainId = chainInfo.id;
       if (explorerApiUrl && apiKey) {
         // Utenti
-        getUniqueUsers(explorerApiUrl, chainInfo.contractAddress, apiKey).then(
-          users => {
-            if (users) setStats(prev => ({ ...prev, totalUsers: users }));
-          }
-        );
+        getUniqueUsers(
+          explorerApiUrl,
+          chainInfo.contractAddress,
+          chainId,
+          apiKey
+        ).then(users => {
+          if (users) setStats(prev => ({ ...prev, totalUsers: users }));
+        });
         // Rewards
-        getTotalRewards(explorerApiUrl, chainInfo.contractAddress, apiKey).then(
-          rewards => {
-            if (rewards) setStats(prev => ({ ...prev, totalRewards: rewards }));
-          }
-        );
+        getTotalRewards(
+          explorerApiUrl,
+          chainInfo.contractAddress,
+          chainId,
+          apiKey
+        ).then(rewards => {
+          if (!isNaN(rewards))
+            setStats(prev => ({ ...prev, totalRewards: rewards }));
+        });
       }
     }
     fetchLiveStats();
@@ -96,14 +104,14 @@ const LiveStats = ({ userInfo, chain }) => {
   const formatNumber = num => {
     if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`;
     if (num >= 1000) return `${(num / 1000).toFixed(1)}K`;
-    return num.toFixed(2);
+    return num.toFixed(0);
   };
 
   const formatCurrency = (amount, price) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
-      minimumFractionDigits: 0,
+      minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     }).format(amount * price);
   };

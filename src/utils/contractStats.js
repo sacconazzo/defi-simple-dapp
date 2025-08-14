@@ -28,12 +28,18 @@ export async function getContractBalance(rpcUrl, contractAddress) {
  * Richiede una API key dell'explorer (Etherscan, BscScan, ecc.)
  * @param {string} explorerApiUrl - URL base dell'API explorer (es: https://api.etherscan.io)
  * @param {string} contractAddress - Address del contratto
+ * @param {string} chainId - ID della chain
  * @param {string} apiKey - API key dell'explorer
  * @returns {Promise<number|null>} - Numero utenti unici, o null se errore/manca apiKey
  */
-export async function getUniqueUsers(explorerApiUrl, contractAddress, apiKey) {
+export async function getUniqueUsers(
+  explorerApiUrl,
+  contractAddress,
+  chainId,
+  apiKey
+) {
   if (!apiKey) return null;
-  const url = `${explorerApiUrl}/api?module=account&action=txlist&address=${contractAddress}&startblock=0&endblock=99999999&sort=asc&apikey=${apiKey}`;
+  const url = `${explorerApiUrl}/api?chainid=${chainId}&module=account&action=txlist&address=${contractAddress}&startblock=0&endblock=99999999&sort=asc&apikey=${apiKey}`;
   try {
     const res = await fetch(url);
     const json = await res.json();
@@ -50,12 +56,19 @@ export async function getUniqueUsers(explorerApiUrl, contractAddress, apiKey) {
  * Richiede una API key dell'explorer (Etherscan, BscScan, ecc.)
  * @param {string} explorerApiUrl - URL base dell'API explorer
  * @param {string} contractAddress - Address del contratto
+ * @param {string} chainId - ID della chain
  * @param {string} apiKey - API key dell'explorer
  * @returns {Promise<number|null>} - Rewards totali (in Ether), o null se errore/manca apiKey
  */
-export async function getTotalRewards(explorerApiUrl, contractAddress, apiKey) {
+export async function getTotalRewards(
+  explorerApiUrl,
+  contractAddress,
+  chainId,
+  apiKey
+) {
   if (!apiKey) return null;
-  const url = `${explorerApiUrl}/api?module=account&action=txlist&address=${contractAddress}&startblock=0&endblock=99999999&sort=asc&apikey=${apiKey}`;
+  //   const url = `${explorerApiUrl}/api?chainid=${chainId}&module=account&action=txlist&address=${contractAddress}&startblock=0&endblock=99999999&sort=asc&apikey=${apiKey}`;
+  const url = `${explorerApiUrl}/api?chainid=${chainId}&module=account&action=tokentx&address=${contractAddress}&startblock=0&endblock=99999999&sort=asc&apikey=${apiKey}`;
   try {
     const res = await fetch(url);
     const json = await res.json();
