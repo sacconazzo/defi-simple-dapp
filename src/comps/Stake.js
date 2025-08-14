@@ -73,12 +73,67 @@ export default function Stake(props) {
     props.setValue(formatVal(balance));
   };
 
+  // Calcolo dinamico e ottimizzato delle fee in base alla chain e al nodo
+  const getFeeParams = async (web3, chain) => {
+    // Chain che supportano EIP-1559 (maxFeePerGas, maxPriorityFeePerGas)
+    const eip1559Chains = [1, 137, 42161, 10, 8453, 324, 43114];
+    if (false && eip1559Chains.includes(chain.id)) {
+      // Default di sicurezza
+      let maxPriorityFeePerGas = web3.utils.toWei('1.5', 'gwei');
+      let maxFeePerGas = web3.utils.toWei('30', 'gwei');
+      try {
+        // Prendi il baseFee dal blocco pending
+        const block = await web3.eth.getBlock('pending');
+        const baseFee = block.baseFeePerGas
+          ? web3.utils.toBN(block.baseFeePerGas)
+          : web3.utils.toBN(web3.utils.toWei('20', 'gwei'));
+        // Prova a stimare la tip media usando feeHistory (se supportato dal nodo)
+        let suggestedTip = maxPriorityFeePerGas;
+        if (web3.eth.getFeeHistory) {
+          const history = await web3.eth.getFeeHistory(5, 'pending', [50]);
+          if (history && history.reward && history.reward.length > 0) {
+            // Prendi la mediana delle tip delle ultime 5 transazioni
+            const tips = history.reward.flat().map(tip => web3.utils.toBN(tip));
+            const sorted = tips.sort((a, b) => a.cmp(b));
+            suggestedTip = sorted[Math.floor(sorted.length / 2)].toString();
+          }
+        }
+        // maxPriorityFee leggermente sopra la mediana
+        maxPriorityFeePerGas = web3.utils
+          .toBN(suggestedTip)
+          .add(web3.utils.toBN(web3.utils.toWei('0.5', 'gwei')))
+          .toString();
+        // maxFee = baseFee + tip + 10%
+        maxFeePerGas = baseFee
+          .add(web3.utils.toBN(maxPriorityFeePerGas))
+          .mul(web3.utils.toBN(110))
+          .div(web3.utils.toBN(100))
+          .toString();
+      } catch (e) {
+        // fallback ai default
+      }
+      return { maxPriorityFeePerGas, maxFeePerGas };
+    } else {
+      // Chain legacy (es. BSC): solo gasPrice
+      let gasPrice = web3.utils.toWei('5', 'gwei');
+      try {
+        let suggested = await web3.eth.getGasPrice();
+        // Applica uno sconto del 5% se la rete non è congestionata
+        gasPrice = web3.utils
+          .toBN(suggested)
+          .mul(web3.utils.toBN(95))
+          .div(web3.utils.toBN(100))
+          .toString();
+      } catch (e) {}
+      return { gasPrice };
+    }
+  };
+
   const onStake = async () => {
     try {
       const currentProvider = props.detectCurrentProvider();
       const web3 = new Web3(currentProvider);
       const val = web3.utils.toWei(String(props.value), 'ether');
-
       toast({
         title: 'Staking in progress...',
         description: `Staking ${props.value} ${nativeSymbol}`,
@@ -87,12 +142,13 @@ export default function Stake(props) {
         isClosable: true,
         position: 'top-right',
       });
-
+      // --- LOGICA FEE ---
+      const feeParams = await getFeeParams(web3, props.chain);
       await props.contract.methods.stake().send({
         from: info.account,
         value: val,
+        ...feeParams,
       });
-
       toast({
         title: '🎉 Staking successful!',
         description: `Successfully staked ${props.value} ${nativeSymbol}`,
@@ -123,11 +179,14 @@ export default function Stake(props) {
         isClosable: true,
         position: 'top-right',
       });
-
+      const currentProvider = props.detectCurrentProvider();
+      const web3 = new Web3(currentProvider);
+      // --- LOGICA FEE ---
+      const feeParams = await getFeeParams(web3, props.chain);
       await props.contract.methods.redeem().send({
         from: info.account,
+        ...feeParams,
       });
-
       toast({
         title: '💰 Rewards claimed!',
         description:
