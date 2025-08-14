@@ -44,6 +44,18 @@ const LiveStats = ({ userInfo, chain }) => {
     averageAPY: 20,
   });
 
+  const getPrice = async priceSymbol => {
+    try {
+      const data = await fetch(
+        `https://min-api.cryptocompare.com/data/price?fsym=${priceSymbol}&tsyms=USD`
+      );
+      const price = await data.json();
+      return price.USD;
+    } catch (e) {
+      return 0;
+    }
+  };
+
   // Effetto per aggiornare live TVL e rewards multichain
   useEffect(() => {
     let cancelled = false;
@@ -114,13 +126,15 @@ const LiveStats = ({ userInfo, chain }) => {
       }
 
       for (const c of chains) {
-        const tvl = await safeGetTvl(c);
+        const price = await getPrice(c.priceSymbol);
+
+        const tvl = (await safeGetTvl(c)) * price;
         pushPartial({ tvl });
 
         const users = await safeGetUsers(c);
         pushPartial({ users });
 
-        const rewards = await safeGetRewards(c);
+        const rewards = (await safeGetRewards(c)) * price;
         pushPartial({ rewards });
 
         // micro-pausa per non martellare gli endpoint
@@ -150,13 +164,13 @@ const LiveStats = ({ userInfo, chain }) => {
     return num.toFixed(0);
   };
 
-  const formatCurrency = (amount, price) => {
+  const formatCurrency = amount => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
-    }).format(amount * price);
+    }).format(amount);
   };
 
   return (
@@ -215,7 +229,7 @@ const LiveStats = ({ userInfo, chain }) => {
           <StatItem
             icon={FaCoins}
             label="Total Staked"
-            value={formatCurrency(stats.totalStaked, userInfo.price || 0)}
+            value={formatCurrency(stats.totalStaked)}
             subtitle="Community funds"
             color="green"
             isAnimated={stats.totalStaked > 0}
@@ -224,7 +238,7 @@ const LiveStats = ({ userInfo, chain }) => {
           <StatItem
             icon={FaRocket}
             label="Total Rewards"
-            value={formatCurrency(stats.totalRewards, userInfo.price || 0)}
+            value={formatCurrency(stats.totalRewards)}
             subtitle="Distributed"
             color="purple"
             isAnimated={stats.totalRewards > 0}
