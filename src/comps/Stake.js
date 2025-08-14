@@ -236,9 +236,6 @@ export default function Stake(props) {
                       boxSize={6}
                       bgGradient="linear-gradient(135deg, brand.500 0%, brand.700 100%)"
                       border="2px solid white"
-                      _hover={{
-                        transform: 'scale(1.1)',
-                      }}
                     />
                   </Slider>
                 </Box>

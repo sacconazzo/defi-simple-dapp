@@ -442,8 +442,8 @@ export default function Core() {
                 textAlign="center"
                 maxW="500px"
               >
-                Built with ❤️ for the global DeFi community. Secure,
-                transparent, and designed for everyone.
+                Built with ❤️ for the global DeFi community. Secure and
+                transparent.
               </Text>
             </VStack>
           </Stack>
