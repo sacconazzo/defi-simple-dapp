@@ -137,8 +137,8 @@ export default function TitleBar(props) {
             <MenuButton
               as={Button}
               variant={'outline'}
-              size={{ base: 'xs', md: 'sm' }}
-              height={{ base: '32px', sm: '36px' }}
+              size={{ base: 'sm', md: 'md' }}
+              // height={{ base: '32px', sm: '36px' }}
               leftIcon={
                 <Avatar
                   size={{ base: 'xs', md: 'xs' }}
@@ -215,7 +215,7 @@ export default function TitleBar(props) {
               variant={'solid'}
               colorScheme={props.userInfo.account ? 'green' : 'blue'}
               size={{ base: 'sm', md: 'md' }}
-              height={{ base: '32px', sm: '36px' }}
+              // height={{ base: '32px', sm: '36px' }}
               onClick={props.onConnect}
               cursor={'pointer'}
               leftIcon={
