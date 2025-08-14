@@ -13,33 +13,34 @@ export default function Info(props) {
     <Modal onClose={props.onClose} isOpen={props.isOpen} isCentered>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>DeFi Demo App</ModalHeader>
+        <ModalHeader>🚀 Simple. Fast. Profitable.</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <p>Hi, here a super simple web3 joke to earn:</p>
+          <p>Turn your crypto into instant earnings with just a few clicks:</p>
           <br />
           <p>
-            - <b>Stake</b> the amount you want. Wait a bit (depending on how
-            many interact with, it could be a few minutes).
+            - <b>Stake</b> any amount — no minimum, no hassle.
           </p>
           <br />
           <p>
-            - <b>Redeem</b> your equity included <b>20% earnings</b>.
+            - <b>Redeem</b> anytime with <b>+20% earnings</b>.
           </p>
           <br />
           <p>
-            On this platform, you can always track your earnings and progress in
-            real time.
+            Track your rewards <b>live, on-chain</b>, in real time.
           </p>
-          <br />
-          <p>Joke based on ponzi scheme. It's new and it works.</p>
           <br />
           <p>
-            Our smart contract is deployed on the Ethereum Mainnet and other
-            networks — you can view the full code at the link below.
+            Our audited smart contracts run on <b>Ethereum Mainnet</b> and
+            multiple other top networks, giving you speed, transparency, and
+            cross-chain flexibility.
           </p>
           <br />
-          <p> Enjoy ✌️</p>
+          <p>
+            <b>Why wait?</b> Start staking now and watch your balance grow.
+          </p>
+          <br />
+          <p>🔗 View the smart contract code on-chain at the links below.</p>
         </ModalBody>
         <ModalFooter>
           <p>

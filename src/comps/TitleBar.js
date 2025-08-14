@@ -124,7 +124,7 @@ export default function TitleBar(props) {
               fontWeight="medium"
               display={{ base: 'none', sm: 'block' }}
             >
-              Stake • Earn • Grow
+              Simple • Fast • Profitable
             </Text>
           </VStack>
         </HStack>
