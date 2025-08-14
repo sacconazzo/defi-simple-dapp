@@ -12,6 +12,8 @@ import {
   HStack,
   Icon,
   keyframes,
+  Wrap,
+  WrapItem,
 } from '@chakra-ui/react';
 import { InfoIcon } from '@chakra-ui/icons';
 import { useState, useEffect } from 'react';
@@ -335,7 +337,7 @@ export default function Core() {
               </Text>
 
               {/* Feature highlights */}
-              <HStack spacing={8} wrap="wrap" justify="center" pt={4}>
+              <Wrap spacing={4} justify="center" pt={4}>
                 {[
                   { icon: FaRocket, text: '20% APY', color: 'green.500' },
                   { icon: FaGlobe, text: 'Multi-chain', color: 'blue.500' },
@@ -350,34 +352,39 @@ export default function Core() {
                     color: 'orange.500',
                   },
                 ].map((feature, index) => (
-                  <HStack
-                    key={index}
-                    spacing={2}
-                    px={4}
-                    py={2}
-                    bg={featureBgColor}
-                    borderRadius="full"
-                    boxShadow="md"
-                    border="1px solid"
-                    borderColor={featureBorderColor}
-                    _hover={{
-                      transform: 'translateY(-2px)',
-                      boxShadow: 'lg',
-                    }}
-                    transition="all 0.3s ease"
-                  >
-                    <Icon as={feature.icon} color={feature.color} boxSize={4} />
-                    <Text
-                      fontSize="sm"
-                      fontWeight="medium"
-                      color="gray.700"
-                      _dark={{ color: 'gray.300' }}
+                  <WrapItem key={index}>
+                    <HStack
+                      spacing={2}
+                      px={4}
+                      py={2}
+                      bg={featureBgColor}
+                      borderRadius="full"
+                      boxShadow="md"
+                      border="1px solid"
+                      borderColor={featureBorderColor}
+                      _hover={{
+                        transform: 'translateY(-2px)',
+                        boxShadow: 'lg',
+                      }}
+                      transition="all 0.3s ease"
                     >
-                      {feature.text}
-                    </Text>
-                  </HStack>
+                      <Icon
+                        as={feature.icon}
+                        color={feature.color}
+                        boxSize={4}
+                      />
+                      <Text
+                        fontSize="sm"
+                        fontWeight="medium"
+                        color="gray.700"
+                        _dark={{ color: 'gray.300' }}
+                      >
+                        {feature.text}
+                      </Text>
+                    </HStack>
+                  </WrapItem>
                 ))}
-              </HStack>
+              </Wrap>
             </VStack>
 
             {/* Stats Grid - Only show when connected */}
@@ -433,7 +440,7 @@ export default function Core() {
                 >
                   smart contract
                 </Link>{' '}
-                on the blockchain ✌️
+                on chain ✌️
               </Text>
 
               <Text
