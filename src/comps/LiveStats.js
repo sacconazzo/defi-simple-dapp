@@ -10,6 +10,12 @@ import {
   Badge,
 } from '@chakra-ui/react';
 import { FaUsers, FaChartLine, FaCoins, FaRocket } from 'react-icons/fa';
+import {
+  getContractBalance,
+  getUniqueUsers,
+  getTotalRewards,
+} from '../utils/contractStats';
+import CHAINS from '../assets/chains';
 
 const countUp = keyframes`
   0% { transform: translateY(20px); opacity: 0; }
@@ -38,6 +44,53 @@ const LiveStats = ({ userInfo, chain }) => {
     averageAPY: 20,
   });
 
+  // Effetto per aggiornare il TVL live dal contratto
+  useEffect(() => {
+    async function fetchLiveStats() {
+      if (!chain) return;
+      const chainInfo = CHAINS.find(c => c.id === chain.id);
+      if (!chainInfo || !chainInfo.rpcUrls?.[0] || !chainInfo.contractAddress)
+        return;
+      // TVL
+      try {
+        const balanceHex = await getContractBalance(
+          chainInfo.rpcUrls[0],
+          chainInfo.contractAddress
+        );
+        const balanceEth = parseFloat(
+          (parseInt(balanceHex, 16) / 1e18).toFixed(4)
+        );
+        setStats(prev => ({ ...prev, totalStaked: balanceEth }));
+      } catch {}
+      // Utenti e rewards (solo se API key presente)
+      const explorerApiUrl = chainInfo.explorerApiUrl;
+      const apiKey = chainInfo.explorerApiKey;
+      const chainId = chainInfo.id;
+      if (explorerApiUrl && apiKey) {
+        // Utenti
+        getUniqueUsers(
+          explorerApiUrl,
+          chainInfo.contractAddress,
+          chainId,
+          apiKey
+        ).then(users => {
+          if (users) setStats(prev => ({ ...prev, totalUsers: users }));
+        });
+        // Rewards
+        getTotalRewards(
+          explorerApiUrl,
+          chainInfo.contractAddress,
+          chainId,
+          apiKey
+        ).then(rewards => {
+          if (!isNaN(rewards))
+            setStats(prev => ({ ...prev, totalRewards: rewards }));
+        });
+      }
+    }
+    fetchLiveStats();
+  }, [chain]);
+
   useEffect(() => {
     if (userInfo.staked > 0) {
       setStats(prev => ({
@@ -51,15 +104,15 @@ const LiveStats = ({ userInfo, chain }) => {
   const formatNumber = num => {
     if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`;
     if (num >= 1000) return `${(num / 1000).toFixed(1)}K`;
-    return num.toFixed(2);
+    return num.toFixed(0);
   };
 
   const formatCurrency = (amount, price) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
     }).format(amount * price);
   };
 
