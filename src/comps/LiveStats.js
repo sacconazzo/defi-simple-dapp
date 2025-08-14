@@ -28,14 +28,14 @@ const LiveStats = ({ userInfo, chain }) => {
   const titleColor = useColorModeValue('gray.800', 'white');
   const blueBg = useColorModeValue('blue.50', 'blue.900');
   const blueBorder = useColorModeValue('blue.200', 'blue.700');
-  const blueText = useColorModeValue('blue.700', 'blue.200');
+  // const blueText = useColorModeValue('blue.700', 'blue.200');
   const blueTextSecondary = useColorModeValue('blue.700', 'blue.100');
 
   const [stats, setStats] = useState({
     totalUsers: 1247,
-    totalStaked: 0,
-    totalRewards: 0,
-    averageAPY: 20.5,
+    totalStaked: 10,
+    totalRewards: 12,
+    averageAPY: 20,
   });
 
   useEffect(() => {

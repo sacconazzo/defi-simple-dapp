@@ -1,7 +1,6 @@
 import {
   Flex,
   Box,
-  Stack,
   HStack,
   Menu,
   Center,
@@ -12,7 +11,7 @@ import {
   Image,
   Link,
   Text,
-  AvatarBadge,
+  // AvatarBadge,
   MenuList,
   MenuItem,
   useColorModeValue,
@@ -90,7 +89,7 @@ export default function TitleBar(props) {
               transition: 'all 0.3s ease',
             }}
           >
-            <Image w={40} src={Logo} alt="DeFi Logo" />
+            <Image w={{ base: 8, sm: 10, md: 40 }} src={Logo} alt="DeFi Logo" />
             <Box
               position="absolute"
               top={-2}
@@ -104,217 +103,237 @@ export default function TitleBar(props) {
               borderRadius="full"
             />
           </Box>
-          <VStack align="start" spacing={0}>
+          <VStack
+            align="start"
+            spacing={0}
+            display={{ base: 'none', md: 'flex' }}
+          >
             <Text
               p={1}
               fontWeight="extrabold"
-              fontSize="xl"
+              fontSize={{ base: 'lg', sm: 'xl' }}
               bgGradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
               bgClip="text"
+              noOfLines={1}
             >
               DeFi Simple dApp
             </Text>
-            <Text fontSize="xs" color="gray.500" fontWeight="medium">
+            <Text
+              fontSize="xs"
+              color="gray.500"
+              fontWeight="medium"
+              display={{ base: 'none', sm: 'block' }}
+            >
               Stake • Earn • Grow
             </Text>
           </VStack>
         </HStack>
 
-        <Flex alignItems={'center'}>
-          <Stack direction={'row'} spacing={4}>
-            <ColorModeSwitcher />
+        <Flex alignItems={'center'} gap={3}>
+          <ColorModeSwitcher />
 
-            {/* Chain Selector */}
-            <Menu autoSelect={false}>
-              <MenuButton
-                as={Button}
-                variant={'outline'}
-                size="sm"
-                leftIcon={
-                  <Avatar size={'xs'} src={getChainIcon(currentChain)} />
-                }
-                rightIcon={
-                  <Box
-                    w={2}
-                    h={2}
-                    borderRadius="full"
-                    bg={props.userInfo.account ? 'green.500' : 'red.500'}
-                    animation={
-                      props.userInfo.account
-                        ? `${pulse} 2s ease-in-out infinite`
-                        : 'none'
-                    }
-                  />
-                }
-                _hover={{
-                  transform: 'translateY(-1px)',
-                  boxShadow: 'md',
-                }}
-                transition="all 0.3s ease"
-              >
+          {/* Chain Selector */}
+          <Menu autoSelect={false}>
+            <MenuButton
+              as={Button}
+              variant={'outline'}
+              size={{ base: 'xs', md: 'sm' }}
+              height={{ base: '32px', sm: '36px' }}
+              leftIcon={
+                <Avatar
+                  size={{ base: 'xs', md: 'xs' }}
+                  src={getChainIcon(currentChain)}
+                />
+              }
+              rightIcon={
+                <Box
+                  w={2}
+                  h={2}
+                  borderRadius="full"
+                  bg={props.userInfo.account ? 'green.500' : 'red.500'}
+                  animation={
+                    props.userInfo.account
+                      ? `${pulse} 2s ease-in-out infinite`
+                      : 'none'
+                  }
+                />
+              }
+              _hover={{
+                transform: 'translateY(-1px)',
+                boxShadow: 'md',
+              }}
+              transition="all 0.3s ease"
+            >
+              <Text display={{ base: 'none', md: 'block' }}>
                 {currentChain?.chainName || 'Ethereum'}
-              </MenuButton>
-              <MenuList p={4} alignItems={'center'} minW="200px">
-                <Center p={2}>
-                  <Text fontSize="sm" fontWeight="bold" color="gray.600">
-                    Select Network
-                  </Text>
-                </Center>
-                <Stack pt={3} spacing={2}>
-                  {props.chains
-                    ?.filter(c => !!c.contractAddress)
-                    ?.map(chain => (
-                      <MenuItem
-                        key={chain.id}
-                        onClick={() => props.onSelectChain?.(chain.id)}
-                        _hover={{
-                          bg: hoverBg,
-                        }}
-                      >
-                        <HStack spacing={3} w="100%">
-                          <Avatar size={'sm'} src={getChainIcon(chain)} />
-                          <VStack align="start" spacing={0} flex={1}>
-                            <Text fontWeight="medium">{chain.chainName}</Text>
-                            <Text fontSize="xs" color="gray.500">
-                              {chain.nativeCurrency?.symbol}
-                            </Text>
-                          </VStack>
-                          {chain.id === currentChain.id && (
-                            <Badge colorScheme="green" size="sm">
-                              Active
-                            </Badge>
-                          )}
-                        </HStack>
-                      </MenuItem>
-                    ))}
-                </Stack>
-              </MenuList>
-            </Menu>
+              </Text>
+              <Text display={{ base: 'block', md: 'none' }}>
+                {currentChain?.nativeCurrency?.symbol || 'ETH'}
+              </Text>
+            </MenuButton>
+            <MenuList p={4} alignItems={'center'} minW="200px">
+              <Center p={2}>
+                <Text fontSize="sm" fontWeight="bold" color="gray.600">
+                  Select Network
+                </Text>
+              </Center>
+              <VStack pt={3} spacing={2}>
+                {props.chains
+                  ?.filter(c => !!c.contractAddress)
+                  ?.map(chain => (
+                    <MenuItem
+                      key={chain.id}
+                      onClick={() => props.onSelectChain?.(chain.id)}
+                      _hover={{
+                        bg: hoverBg,
+                      }}
+                    >
+                      <HStack spacing={3} w="100%">
+                        <Avatar size={'sm'} src={getChainIcon(chain)} />
+                        <VStack align="start" spacing={0} flex={1}>
+                          <Text fontWeight="medium">{chain.chainName}</Text>
+                          <Text fontSize="xs" color="gray.500">
+                            {chain.nativeCurrency?.symbol}
+                          </Text>
+                        </VStack>
+                        {chain.id === currentChain.id && (
+                          <Badge colorScheme="green" size="sm">
+                            Active
+                          </Badge>
+                        )}
+                      </HStack>
+                    </MenuItem>
+                  ))}
+              </VStack>
+            </MenuList>
+          </Menu>
 
-            {/* Wallet Connection */}
-            <Menu autoSelect={false}>
-              <MenuButton
-                as={Button}
-                variant={'solid'}
-                colorScheme={props.userInfo.account ? 'green' : 'blue'}
-                size="md"
-                onClick={props.onConnect}
-                cursor={'pointer'}
-                leftIcon={
-                  props.userInfo.account ? (
-                    <Box
-                      w={3}
-                      h={3}
-                      borderRadius="full"
-                      bg="white"
-                      animation={`${pulse} 2s ease-in-out infinite`}
-                    />
-                  ) : (
-                    <Box w={3} h={3} borderRadius="full" bg="white" />
-                  )
-                }
-                _hover={{
-                  transform: 'translateY(-2px)',
-                  boxShadow: 'lg',
-                }}
-                _active={{
-                  transform: 'translateY(0)',
-                }}
-                transition="all 0.3s ease"
-              >
+          {/* Wallet Connection */}
+          <Menu autoSelect={false}>
+            <MenuButton
+              as={Button}
+              variant={'solid'}
+              colorScheme={props.userInfo.account ? 'green' : 'blue'}
+              size={{ base: 'sm', md: 'md' }}
+              height={{ base: '32px', sm: '36px' }}
+              onClick={props.onConnect}
+              cursor={'pointer'}
+              leftIcon={
+                props.userInfo.account ? (
+                  <Box
+                    w={{ base: 2, md: 3 }}
+                    h={{ base: 2, md: 3 }}
+                    borderRadius="full"
+                    bg="white"
+                    animation={`${pulse} 2s ease-in-out infinite`}
+                  />
+                ) : (
+                  <Box
+                    w={{ base: 2, md: 3 }}
+                    h={{ base: 2, md: 3 }}
+                    borderRadius="full"
+                    bg="white"
+                  />
+                )
+              }
+              _hover={{
+                transform: 'translateY(-2px)',
+                boxShadow: 'lg',
+              }}
+              _active={{
+                transform: 'translateY(0)',
+              }}
+              transition="all 0.3s ease"
+            >
+              <Text display={{ base: 'none', md: 'block' }}>
                 {props.userInfo.account ? 'Connected' : 'Connect Wallet'}
-              </MenuButton>
-              <MenuList p={4} alignItems={'center'} minW="300px">
-                <Center p={2}>
-                  {!props.userInfo.account && (
-                    <VStack spacing={3}>
-                      <Tooltip label="Please open & connect MetaMask">
-                        <Image
-                          size={'2xl'}
-                          src={MetaLogo}
-                          onClick={() => window.open('https://metamask.io/')}
-                          cursor="pointer"
-                          _hover={{
-                            transform: 'scale(1.05)',
-                          }}
-                          transition="all 0.3s ease"
-                        />
-                      </Tooltip>
-                      <Text fontSize="sm" color="gray.600" textAlign="center">
-                        Connect your Web3 wallet to start staking
-                      </Text>
-                    </VStack>
-                  )}
-                  {props.userInfo.account && (
-                    <VStack spacing={3}>
-                      <Jazzicon
-                        diameter={120}
-                        seed={jsNumberForAddress(props.userInfo.account)}
-                      />
-                      <VStack spacing={1}>
-                        <Text fontSize="sm" fontWeight="bold" color="gray.700">
-                          Wallet Connected
-                        </Text>
-                        <Text
-                          fontSize="xs"
-                          color="green.500"
-                          fontWeight="medium"
-                        >
-                          ✓ Ready to stake
-                        </Text>
-                      </VStack>
-                    </VStack>
-                  )}
-                </Center>
-
-                {props.userInfo.account && (
-                  <>
-                    <Center pt={3}>
-                      <VStack spacing={1}>
-                        <Text
-                          fontSize="xs"
-                          color="gray.500"
-                          fontWeight="medium"
-                        >
-                          Current Network
-                        </Text>
-                        <Badge colorScheme="blue" size="sm">
-                          {currentChain?.chainName || 'Ethereum Mainnet'}
-                        </Badge>
-                      </VStack>
-                    </Center>
-
-                    <Center pt={3}>
-                      <Link
-                        isExternal
-                        href={`${explorer}address/${props.userInfo.account}`}
-                        color="brand.500"
-                        fontSize="xs"
-                        fontWeight="medium"
+              </Text>
+              <Text display={{ base: 'block', md: 'none' }}>
+                {props.userInfo.account ? '✓' : 'Connect'}
+              </Text>
+            </MenuButton>
+            <MenuList p={4} alignItems={'center'} minW="300px">
+              <Center p={2}>
+                {!props.userInfo.account && (
+                  <VStack spacing={3}>
+                    <Tooltip label="Please open & connect MetaMask">
+                      <Image
+                        size={'2xl'}
+                        src={MetaLogo}
+                        onClick={() => window.open('https://metamask.io/')}
+                        cursor="pointer"
                         _hover={{
-                          textDecoration: 'underline',
+                          transform: 'scale(1.05)',
                         }}
-                      >
-                        View on Explorer
-                      </Link>
-                    </Center>
-
-                    <Center pt={2}>
-                      <Text
-                        fontSize="xs"
-                        color="gray.500"
-                        fontFamily="mono"
-                        maxW="200px"
-                        isTruncated
-                      >
-                        {props.userInfo.account}
-                      </Text>
-                    </Center>
-                  </>
+                        transition="all 0.3s ease"
+                      />
+                    </Tooltip>
+                    <Text fontSize="sm" color="gray.600" textAlign="center">
+                      Connect your Web3 wallet to start staking
+                    </Text>
+                  </VStack>
                 )}
-              </MenuList>
-            </Menu>
-          </Stack>
+                {props.userInfo.account && (
+                  <VStack spacing={3}>
+                    <Jazzicon
+                      diameter={120}
+                      seed={jsNumberForAddress(props.userInfo.account)}
+                    />
+                    <VStack spacing={1}>
+                      <Text fontSize="sm" fontWeight="bold" color="gray.700">
+                        Wallet Connected
+                      </Text>
+                      <Text fontSize="xs" color="green.500" fontWeight="medium">
+                        ✓ Ready to stake
+                      </Text>
+                    </VStack>
+                  </VStack>
+                )}
+              </Center>
+
+              {props.userInfo.account && (
+                <>
+                  <Center pt={3}>
+                    <VStack spacing={1}>
+                      <Text fontSize="xs" color="gray.500" fontWeight="medium">
+                        Current Network
+                      </Text>
+                      <Badge colorScheme="blue" size="sm">
+                        {currentChain?.chainName || 'Ethereum Mainnet'}
+                      </Badge>
+                    </VStack>
+                  </Center>
+
+                  <Center pt={3}>
+                    <Link
+                      isExternal
+                      href={`${explorer}address/${props.userInfo.account}`}
+                      color="brand.500"
+                      fontSize="xs"
+                      fontWeight="medium"
+                      _hover={{
+                        textDecoration: 'underline',
+                      }}
+                    >
+                      View on Explorer
+                    </Link>
+                  </Center>
+
+                  <Center pt={2}>
+                    <Text
+                      fontSize="xs"
+                      color="gray.500"
+                      fontFamily="mono"
+                      maxW="200px"
+                      isTruncated
+                    >
+                      {props.userInfo.account}
+                    </Text>
+                  </Center>
+                </>
+              )}
+            </MenuList>
+          </Menu>
         </Flex>
       </Flex>
     </Box>

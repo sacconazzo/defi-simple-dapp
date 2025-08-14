@@ -7,10 +7,10 @@ import {
 } from '@chakra-ui/react';
 import { FaMoon, FaSun } from 'react-icons/fa';
 
-const rotate = keyframes`
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-`;
+// const rotate = keyframes`
+//   from { transform: rotate(0deg); }
+//   to { transform: rotate(360deg); }
+// `;
 
 const pulse = keyframes`
   0% { transform: scale(1); }
@@ -29,8 +29,8 @@ export const ColorModeSwitcher = props => {
 
   return (
     <IconButton
-      size="md"
-      fontSize="lg"
+      size={{ base: 'sm', md: 'md' }}
+      fontSize={{ base: 'md', md: 'lg' }}
       aria-label={`Switch to ${text} mode`}
       variant="ghost"
       color={iconColor}

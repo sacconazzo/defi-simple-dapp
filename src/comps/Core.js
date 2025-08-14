@@ -23,7 +23,7 @@ import { FaRocket, FaChartLine, FaCoins, FaGlobe } from 'react-icons/fa';
 import TitleBar from './TitleBar';
 import Stake from './Stake';
 import Info from './Info';
-import StatsGrid from './StatsCard';
+// import StatsGrid from './StatsCard';
 import PoolProgress from './PoolProgress';
 import LiveStats from './LiveStats';
 import BenefitsSection from './BenefitsSection';
@@ -380,12 +380,6 @@ export default function Core() {
               </HStack>
             </VStack>
 
-            {/* Live Community Stats - Always visible */}
-            <LiveStats userInfo={userInfo} chain={currentChain} />
-
-            {/* Benefits Section - Always visible */}
-            <BenefitsSection />
-
             {/* Stats Grid - Only show when connected */}
             {/* {isConnected && (
               <StatsGrid userInfo={userInfo} chain={currentChain} />
@@ -413,6 +407,12 @@ export default function Core() {
               onConnect={onConnect}
               chain={currentChain}
             />
+
+            {/* Benefits Section - Always visible */}
+            <BenefitsSection />
+
+            {/* Live Community Stats - Always visible */}
+            <LiveStats userInfo={userInfo} chain={currentChain} />
 
             {/* Footer */}
             <VStack spacing={4} align={'center'} pt={8}>
