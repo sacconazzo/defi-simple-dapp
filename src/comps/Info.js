@@ -28,21 +28,22 @@ export default function Info(props) {
           </p>
           <br />
           <p>
-            In this platform you will always see the calculation of your
-            earnings and the progress.
+            On this platform, you can always track your earnings and progress in
+            real time.
           </p>
           <br />
           <p>Joke based on ponzi scheme. It's new and it works.</p>
           <br />
           <p>
-            You can see the contract code on Ethereum Mainnet at the link below.
+            Our smart contract is deployed on the Ethereum Mainnet and other
+            networks — you can view the full code at the link below.
           </p>
           <br />
           <p> Enjoy ✌️</p>
         </ModalBody>
         <ModalFooter>
           <p>
-            <i>coinio–05.06.22</i>
+            <i>coinio–05.08.25</i>
           </p>
         </ModalFooter>
       </ModalContent>
