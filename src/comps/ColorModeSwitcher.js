@@ -3,7 +3,7 @@ import {
   useColorMode,
   useColorModeValue,
   IconButton,
-  keyframes,
+  // keyframes,
 } from '@chakra-ui/react';
 import { FaMoon, FaSun } from 'react-icons/fa';
 
@@ -12,11 +12,11 @@ import { FaMoon, FaSun } from 'react-icons/fa';
 //   to { transform: rotate(360deg); }
 // `;
 
-const pulse = keyframes`
-  0% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); }
-`;
+// const pulse = keyframes`
+//   0% { transform: scale(1); }
+//   50% { transform: scale(1.1); }
+//   100% { transform: scale(1); }
+// `;
 
 export const ColorModeSwitcher = props => {
   // All hooks must be called at the top level
@@ -48,7 +48,7 @@ export const ColorModeSwitcher = props => {
         transform: 'translateY(0)',
       }}
       transition="all 0.3s ease"
-      animation={`${pulse} 2s ease-in-out infinite`}
+      // animation={`${pulse} 2s ease-in-out infinite`}
       _focus={{
         boxShadow: '0 0 0 3px rgba(102, 126, 234, 0.6)',
       }}
