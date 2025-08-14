@@ -4,7 +4,7 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
-  Stack,
+  // Stack,
   Button,
   Text,
   useColorModeValue,
@@ -45,7 +45,7 @@ export default function Stake(props) {
   const stakedBg = useColorModeValue('blue.50', 'blue.900');
   const stakedBorder = useColorModeValue('blue.200', 'blue.700');
   const stakedText = useColorModeValue('blue.700', 'blue.200');
-  const stakedTextSecondary = useColorModeValue('blue.700', 'blue.200');
+  // const stakedTextSecondary = useColorModeValue('blue.700', 'blue.200');
   const greenBg = useColorModeValue('green.100', 'green.900');
   const greenText = useColorModeValue('green.800', 'green.100');
   const titleColor = useColorModeValue('gray.800', 'white');
