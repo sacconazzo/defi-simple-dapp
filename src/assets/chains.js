@@ -1,5 +1,5 @@
-// Elenco reti EVM supportate con configurazioni e indirizzi contratto
-// Compila gli address contratto per ogni chain dove il contratto è deployato
+// Elenco reti EVM supportate con configurazioni, indirizzi contratto e API explorer
+// Per aggiungere una nuova chain, compila anche explorerApiUrl e explorerApiKey
 
 const CHAINS = [
   {
@@ -12,6 +12,8 @@ const CHAINS = [
     icon: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png',
     priceSymbol: 'ETH',
     contractAddress: process.env.REACT_APP_ETH_CONTRACT_ADDRESS,
+    explorerApiUrl: 'https://api.etherscan.io/api',
+    explorerApiKey: process.env.REACT_APP_ETHERSCAN_API_KEY,
   },
   {
     id: 56,
@@ -23,6 +25,8 @@ const CHAINS = [
     icon: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/binance/info/logo.png',
     priceSymbol: 'BNB',
     contractAddress: process.env.REACT_APP_BNB_CONTRACT_ADDRESS,
+    explorerApiUrl: 'https://api.bscscan.com/api',
+    explorerApiKey: process.env.REACT_APP_BSCSCAN_API_KEY,
   },
   {
     id: 137,
@@ -34,6 +38,8 @@ const CHAINS = [
     icon: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/polygon/info/logo.png',
     priceSymbol: 'POL',
     contractAddress: process.env.REACT_APP_POLYGON_CONTRACT_ADDRESS,
+    explorerApiUrl: 'https://api.polygonscan.com/api',
+    explorerApiKey: process.env.REACT_APP_POLYGONSCAN_API_KEY,
   },
   {
     id: 42161,
@@ -45,6 +51,8 @@ const CHAINS = [
     icon: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/arbitrum/info/logo.png',
     priceSymbol: 'ETH',
     contractAddress: process.env.REACT_APP_ARBITRUM_CONTRACT_ADDRESS,
+    explorerApiUrl: 'https://api.arbiscan.io/api',
+    explorerApiKey: process.env.REACT_APP_ARBISCAN_API_KEY,
   },
   {
     id: 43114,
@@ -56,6 +64,8 @@ const CHAINS = [
     icon: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/avalanchec/info/logo.png',
     priceSymbol: 'AVAX',
     contractAddress: process.env.REACT_APP_AVALANCHE_CONTRACT_ADDRESS,
+    explorerApiUrl: 'https://api.snowtrace.io/api',
+    explorerApiKey: process.env.REACT_APP_SNOWTRACE_API_KEY,
   },
   {
     id: 10,
@@ -67,6 +77,8 @@ const CHAINS = [
     icon: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/optimism/info/logo.png',
     priceSymbol: 'ETH',
     contractAddress: process.env.REACT_APP_OPTIMISM_CONTRACT_ADDRESS,
+    explorerApiUrl: 'https://api-optimistic.etherscan.io/api',
+    explorerApiKey: process.env.REACT_APP_OPTIMISTIC_API_KEY,
   },
   {
     id: 8453,
@@ -78,6 +90,8 @@ const CHAINS = [
     icon: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/base/info/logo.png',
     priceSymbol: 'ETH',
     contractAddress: process.env.REACT_APP_BASE_CONTRACT_ADDRESS,
+    explorerApiUrl: 'https://api.basescan.org/api',
+    explorerApiKey: process.env.REACT_APP_BASESCAN_API_KEY,
   },
   {
     id: 324,
@@ -89,6 +103,8 @@ const CHAINS = [
     icon: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/zksync/info/logo.png',
     priceSymbol: 'ETH',
     contractAddress: process.env.REACT_APP_ZKSYNC_ERA_CONTRACT_ADDRESS,
+    explorerApiUrl: 'https://api.zksync.io', // Da verificare se esiste endpoint compatibile
+    explorerApiKey: process.env.REACT_APP_ZKSYNC_API_KEY,
   },
 ];
 
