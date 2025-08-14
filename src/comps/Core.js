@@ -8,16 +8,25 @@ import {
   useColorModeValue,
   Grid,
   useDisclosure,
+  VStack,
+  HStack,
+  Icon,
+  keyframes,
 } from '@chakra-ui/react';
 import { InfoIcon } from '@chakra-ui/icons';
 import { useState, useEffect } from 'react';
 // import ReactDOMServer from 'react-dom/server';
 import Web3 from 'web3';
 import { Helmet } from 'react-helmet-async';
+import { FaRocket, FaChartLine, FaCoins, FaGlobe } from 'react-icons/fa';
 
 import TitleBar from './TitleBar';
 import Stake from './Stake';
 import Info from './Info';
+import StatsGrid from './StatsCard';
+import PoolProgress from './PoolProgress';
+import LiveStats from './LiveStats';
+import BenefitsSection from './BenefitsSection';
 
 import Contract from '../assets/contract-info';
 import CHAINS from '../assets/chains';
@@ -31,6 +40,18 @@ let refresh;
 //     escape(ReactDOMServer.renderToStaticMarkup(reactElement))
 //   );
 // }
+
+const float = keyframes`
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+`;
+
+const glow = keyframes`
+  0% { box-shadow: 0 0 20px rgba(102, 126, 234, 0.3); }
+  50% { box-shadow: 0 0 30px rgba(102, 126, 234, 0.6); }
+  100% { box-shadow: 0 0 20px rgba(102, 126, 234, 0.3); }
+`;
 
 export default function Core() {
   const [refreshCounter, setRefresh] = useState(0);
@@ -53,6 +74,10 @@ export default function Core() {
     rate: 0,
   });
   const [value, setValue] = useState(0);
+
+  // Hooks for color mode values
+  const featureBgColor = useColorModeValue('white', 'gray.800');
+  const featureBorderColor = useColorModeValue('gray.200', 'gray.700');
 
   const formatVal = val => Math.trunc(val * 100000) / 100000;
 
@@ -229,12 +254,13 @@ export default function Core() {
     <Flex
       align={'center'}
       justify={'center'}
-      bg={useColorModeValue('gray.50', 'gray.800')}
+      bg={useColorModeValue('gray.50', 'gray.900')}
+      minH="100vh"
     >
       <Box textAlign="center" minW={'100vw'} overflowY="auto">
         <Grid h="100vh">
           <Helmet>
-            <title>DeFi Demo App — Stake / Earn / Enjoy</title>
+            <title>DeFi Simple dApp — Stake / Earn / Enjoy</title>
             <meta
               name="description"
               content="Simple staking dApp. Stake native tokens and redeem with +20% when the pool fills. Multichain, minimal UI."
@@ -242,7 +268,7 @@ export default function Core() {
             <link rel="canonical" href="https://caramel.finance/" />
             <meta
               property="og:title"
-              content="DeFi Demo App — Stake / Earn / Enjoy"
+              content="DeFi Simple dApp — Stake / Earn / Enjoy"
             />
             <meta
               property="og:description"
@@ -263,19 +289,119 @@ export default function Core() {
             onSelectChain={onSelectChain}
           />
 
-          <Stack spacing={8} mx={'auto'} w={['90vw', 450, 550]} py={12} px={6}>
-            <Stack pt={50} align={'center'}>
-              <Heading fontSize={'4xl'}>DeFi Demo App</Heading>
-              <Text
-                fontSize={'lg'}
-                color={useColorModeValue('gray.500', 'gray.600')}
+          <Stack spacing={8} mx={'auto'} w={['95vw', 600, 800]} py={12} px={6}>
+            {/* Hero Section */}
+            <VStack spacing={6} pt={50} align={'center'}>
+              <Box
+                position="relative"
+                animation={`${float} 3s ease-in-out infinite`}
               >
-                <Link onClick={onInfo}>stake / earn / enjoy</Link>{' '}
-                <Link onClick={onInfo}>
+                <Heading
+                  fontSize={['3xl', '4xl', '5xl']}
+                  bgGradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+                  bgClip="text"
+                  fontWeight="extrabold"
+                  textAlign="center"
+                >
+                  DeFi Simple dApp
+                </Heading>
+                <Box
+                  position="absolute"
+                  top={-2}
+                  left={-2}
+                  right={-2}
+                  bottom={-2}
+                  bgGradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+                  filter="blur(20px)"
+                  opacity={0.3}
+                  zIndex={-1}
+                  animation={`${glow} 2s ease-in-out infinite`}
+                />
+              </Box>
+
+              <Text
+                fontSize={['lg', 'xl']}
+                color={useColorModeValue('gray.600', 'gray.400')}
+                textAlign="center"
+                maxW="600px"
+                lineHeight="tall"
+              >
+                <Link onClick={onInfo} color="brand.500" fontWeight="semibold">
+                  🚀 Stake / 💰 Earn / 🎉 Enjoy
+                </Link>{' '}
+                <Link onClick={onInfo} color="brand.500">
                   <InfoIcon />
                 </Link>
               </Text>
-            </Stack>
+
+              {/* Feature highlights */}
+              <HStack spacing={8} wrap="wrap" justify="center" pt={4}>
+                {[
+                  { icon: FaRocket, text: '20% APY', color: 'green.500' },
+                  { icon: FaGlobe, text: 'Multi-chain', color: 'blue.500' },
+                  {
+                    icon: FaCoins,
+                    text: 'Instant Rewards',
+                    color: 'purple.500',
+                  },
+                  {
+                    icon: FaChartLine,
+                    text: 'No Lock Period',
+                    color: 'orange.500',
+                  },
+                ].map((feature, index) => (
+                  <HStack
+                    key={index}
+                    spacing={2}
+                    px={4}
+                    py={2}
+                    bg={featureBgColor}
+                    borderRadius="full"
+                    boxShadow="md"
+                    border="1px solid"
+                    borderColor={featureBorderColor}
+                    _hover={{
+                      transform: 'translateY(-2px)',
+                      boxShadow: 'lg',
+                    }}
+                    transition="all 0.3s ease"
+                  >
+                    <Icon as={feature.icon} color={feature.color} boxSize={4} />
+                    <Text
+                      fontSize="sm"
+                      fontWeight="medium"
+                      color="gray.700"
+                      _dark={{ color: 'gray.300' }}
+                    >
+                      {feature.text}
+                    </Text>
+                  </HStack>
+                ))}
+              </HStack>
+            </VStack>
+
+            {/* Live Community Stats - Always visible */}
+            <LiveStats userInfo={userInfo} chain={currentChain} />
+
+            {/* Benefits Section - Always visible */}
+            <BenefitsSection />
+
+            {/* Stats Grid - Only show when connected */}
+            {/* {isConnected && (
+              <StatsGrid userInfo={userInfo} chain={currentChain} />
+            )} */}
+
+            {/* Pool Progress - Only show when connected */}
+            {isConnected && userInfo.staked > 0 && (
+              <PoolProgress
+                rate={userInfo.rate}
+                isFilled={userInfo.isFilled}
+                staked={userInfo.staked}
+                chain={currentChain}
+              />
+            )}
+
+            {/* Main Staking Interface */}
             <Stake
               isConnected={isConnected}
               userInfo={userInfo}
@@ -287,9 +413,11 @@ export default function Core() {
               onConnect={onConnect}
               chain={currentChain}
             />
-            <Stack align={'center'}>
-              <Text fontSize={'lg'} color={'gray.600'}>
-                see the{' '}
+
+            {/* Footer */}
+            <VStack spacing={4} align={'center'} pt={8}>
+              <Text fontSize={'lg'} color={'gray.600'} textAlign="center">
+                🔍 See the{' '}
                 <Link
                   href={`${
                     (currentChain.blockExplorerUrls &&
@@ -297,13 +425,27 @@ export default function Core() {
                     'https://etherscan.io/'
                   }address/${currentChain.contractAddress || Contract.cnt}`}
                   isExternal
-                  color={'blue.400'}
+                  color={'brand.500'}
+                  fontWeight="semibold"
+                  _hover={{
+                    textDecoration: 'underline',
+                  }}
                 >
-                  contract
+                  smart contract
                 </Link>{' '}
-                ✌️
+                on the blockchain ✌️
               </Text>
-            </Stack>
+
+              <Text
+                fontSize="sm"
+                color="gray.500"
+                textAlign="center"
+                maxW="500px"
+              >
+                Built with ❤️ for the global DeFi community. Secure,
+                transparent, and designed for everyone.
+              </Text>
+            </VStack>
           </Stack>
         </Grid>
       </Box>
