@@ -262,12 +262,12 @@ export default function Core() {
       <Box textAlign="center" minW={'100vw'} overflowY="auto">
         <Grid h="100vh">
           <Helmet>
-            <title>DeFi Simple dApp — Simple / Fast / Profitable</title>
+            <title>DeFi Simple dApp — Simple • Fast • Profitable</title>
             <meta
               name="description"
               content="Simple staking dApp. Stake native tokens and redeem with +20% when the pool fills. Multichain, minimal UI."
             />
-            <link rel="canonical" href="https://caramel.finance/" />
+            <link rel="canonical" href="https://20percent.giona.tech/" />
             <meta
               property="og:title"
               content="DeFi Simple dApp — Simple / Fast / Profitable"
@@ -276,7 +276,7 @@ export default function Core() {
               property="og:description"
               content="Simple staking dApp. Stake native tokens and redeem with +20%."
             />
-            <meta property="og:url" content="https://caramel.finance/" />
+            <meta property="og:url" content="https://20percent.giona.tech/" />
             <meta
               property="og:image"
               content={process.env.PUBLIC_URL + '/logo512.png'}
@@ -329,7 +329,7 @@ export default function Core() {
                 lineHeight="tall"
               >
                 <Link onClick={onInfo} color="brand.500" fontWeight="semibold">
-                  ✨ Simple / ⚡ Fast / 🚀 Profitable
+                  ✨ Simple • ⚡ Fast • 🚀 Profitable
                 </Link>{' '}
                 <Link onClick={onInfo} color="brand.500">
                   <InfoIcon />
