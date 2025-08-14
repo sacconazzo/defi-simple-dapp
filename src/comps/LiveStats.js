@@ -38,66 +38,109 @@ const LiveStats = ({ userInfo, chain }) => {
   const blueTextSecondary = useColorModeValue('blue.700', 'blue.100');
 
   const [stats, setStats] = useState({
-    totalUsers: 1247,
-    totalStaked: 10,
-    totalRewards: 12,
+    totalUsers: 0,
+    totalStaked: 0,
+    totalRewards: 0,
     averageAPY: 20,
   });
 
-  // Effetto per aggiornare il TVL live dal contratto
+  // Effetto per aggiornare live TVL e rewards multichain
   useEffect(() => {
-    async function fetchLiveStats() {
-      if (!chain) return;
-      const chainInfo = CHAINS.find(c => c.id === chain.id);
-      if (!chainInfo || !chainInfo.rpcUrls?.[0] || !chainInfo.contractAddress)
-        return;
-      // TVL
+    let cancelled = false;
+    const sleep = ms => new Promise(r => setTimeout(r, ms));
+    // anti-race: ignora aggiornamenti di run precedenti
+    const runId = (fetchAllLiveStatsSequential._rid =
+      (fetchAllLiveStatsSequential._rid || 0) + 1);
+
+    async function safeGetTvl(c) {
       try {
-        const balanceHex = await getContractBalance(
-          chainInfo.rpcUrls[0],
-          chainInfo.contractAddress
-        );
-        const balanceEth = parseFloat(
-          (parseInt(balanceHex, 16) / 1e18).toFixed(4)
-        );
-        setStats(prev => ({ ...prev, totalStaked: balanceEth }));
-      } catch {}
-      // Utenti e rewards (solo se API key presente)
-      const explorerApiUrl = chainInfo.explorerApiUrl;
-      const apiKey = chainInfo.explorerApiKey;
-      const chainId = chainInfo.id;
-      if (explorerApiUrl && apiKey) {
-        // Utenti
-        getUniqueUsers(
-          explorerApiUrl,
-          chainInfo.contractAddress,
-          chainId,
-          apiKey
-        ).then(users => {
-          if (users) setStats(prev => ({ ...prev, totalUsers: users }));
-        });
-        // Rewards
-        getTotalRewards(
-          explorerApiUrl,
-          chainInfo.contractAddress,
-          chainId,
-          apiKey
-        ).then(rewards => {
-          if (!isNaN(rewards))
-            setStats(prev => ({ ...prev, totalRewards: rewards }));
-        });
+        const hex = await getContractBalance(c.rpcUrls[0], c.contractAddress);
+        return parseFloat((parseInt(hex, 16) / 1e18).toFixed(4));
+      } catch {
+        return 0;
       }
     }
-    fetchLiveStats();
-  }, [chain]);
+    async function safeGetUsers(c) {
+      if (!c.explorerApiUrl || !c.explorerApiKey) return 0;
+      try {
+        const v = await getUniqueUsers(
+          c.explorerApiUrl,
+          c.contractAddress,
+          c.id,
+          c.explorerApiKey
+        );
+        return Number.isFinite(v) ? v : 0;
+      } catch {
+        return 0;
+      }
+    }
+    async function safeGetRewards(c) {
+      if (!c.explorerApiUrl || !c.explorerApiKey) return 0;
+      try {
+        const v = await getTotalRewards(
+          c.explorerApiUrl,
+          c.contractAddress,
+          c.id,
+          c.explorerApiKey
+        );
+        return !isNaN(v) ? v : 0;
+      } catch {
+        return 0;
+      }
+    }
+
+    async function fetchAllLiveStatsSequential() {
+      const chains = (CHAINS || []).filter(
+        c => c && c.contractAddress && c.rpcUrls && c.rpcUrls[0]
+      );
+
+      const totals = { totalStaked: 0, totalUsers: 0, totalRewards: 0 };
+
+      function pushPartial(partial) {
+        if (typeof partial.tvl === 'number') totals.totalStaked += partial.tvl;
+        if (typeof partial.users === 'number')
+          totals.totalUsers += partial.users;
+        if (typeof partial.rewards === 'number')
+          totals.totalRewards += partial.rewards;
+
+        if (!cancelled && runId === fetchAllLiveStatsSequential._rid) {
+          setStats(prev => ({
+            ...prev,
+            totalStaked: Number(totals.totalStaked.toFixed(4)),
+            totalUsers: totals.totalUsers,
+            totalRewards: totals.totalRewards,
+          }));
+        }
+      }
+
+      for (const c of chains) {
+        const tvl = await safeGetTvl(c);
+        pushPartial({ tvl });
+
+        const users = await safeGetUsers(c);
+        pushPartial({ users });
+
+        const rewards = await safeGetRewards(c);
+        pushPartial({ rewards });
+
+        // micro-pausa per non martellare gli endpoint
+        await sleep(100);
+      }
+    }
+
+    fetchAllLiveStatsSequential();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     if (userInfo.staked > 0) {
-      setStats(prev => ({
-        ...prev,
-        totalStaked: prev.totalStaked + userInfo.staked,
-        totalRewards: prev.totalRewards + userInfo.staked * 0.2,
-      }));
+      // setStats(prev => ({
+      //   ...prev,
+      //   totalStaked: prev.totalStaked + userInfo.staked,
+      //   totalRewards: prev.totalRewards + userInfo.staked * 0.2,
+      // }));
     }
   }, [userInfo.staked]);
 
