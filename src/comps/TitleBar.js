@@ -125,7 +125,7 @@ export default function TitleBar(props) {
               pl={2}
               display={{ base: 'none', sm: 'block' }}
             >
-              Simple • Fast • Profitable
+              Joke to Earn
             </Text>
           </VStack>
         </HStack>

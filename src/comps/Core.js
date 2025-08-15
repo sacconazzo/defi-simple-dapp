@@ -262,7 +262,7 @@ export default function Core() {
       <Box textAlign="center" minW={'100vw'} overflowY="auto">
         <Grid h="100vh">
           <Helmet>
-            <title>DeFi Simple dApp — Simple • Fast • Profitable</title>
+            <title>DeFi Simple dApp — Joke to Earn</title>
             <meta
               name="description"
               content="Simple staking dApp. Stake native tokens and redeem with +20% when the pool fills. Multichain, minimal UI."
@@ -270,7 +270,7 @@ export default function Core() {
             <link rel="canonical" href="https://20percent.giona.tech/" />
             <meta
               property="og:title"
-              content="DeFi Simple dApp — Simple / Fast / Profitable"
+              content="DeFi Simple dApp — Joke to Earn"
             />
             <meta
               property="og:description"
@@ -329,7 +329,7 @@ export default function Core() {
                 lineHeight="tall"
               >
                 <Link onClick={onInfo} color="brand.500" fontWeight="semibold">
-                  ✨ Simple • ⚡ Fast • 🚀 Profitable
+                  ✨ Joke to 🚀 Earn
                 </Link>{' '}
                 <Link onClick={onInfo} color="brand.500">
                   <InfoIcon />
