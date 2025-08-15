@@ -13,13 +13,14 @@ export default function Info(props) {
     <Modal onClose={props.onClose} isOpen={props.isOpen} isCentered>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>🚀 Simple. Fast. Profitable.</ModalHeader>
+        <ModalHeader>✨ Joke to 🚀 Earn</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <p>Turn your crypto into instant earnings with just a few clicks:</p>
           <br />
           <p>
-            - <b>Stake</b> any amount — no minimum, no hassle.
+            - <b>Stake</b> any amount — no minimum, no hassle. Start with just a
+            small amount and see the rewards in action.
           </p>
           <br />
           <p>
