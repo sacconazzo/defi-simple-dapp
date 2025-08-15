@@ -109,7 +109,7 @@ export default function TitleBar(props) {
             display={{ base: 'none', md: 'flex' }}
           >
             <Text
-              p={1}
+              pl={1}
               fontWeight="extrabold"
               fontSize={{ base: 'lg', sm: 'xl' }}
               bgGradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
@@ -122,6 +122,7 @@ export default function TitleBar(props) {
               fontSize="xs"
               color="gray.500"
               fontWeight="medium"
+              pl={2}
               display={{ base: 'none', sm: 'block' }}
             >
               Simple • Fast • Profitable
