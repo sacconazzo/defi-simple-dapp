@@ -68,7 +68,8 @@ export async function getTotalRewards(
 ) {
   if (!apiKey) return null;
   //   const url = `${explorerApiUrl}/api?chainid=${chainId}&module=account&action=txlist&address=${contractAddress}&startblock=0&endblock=99999999&sort=asc&apikey=${apiKey}`;
-  const url = `${explorerApiUrl}/api?chainid=${chainId}&module=account&action=tokentx&address=${contractAddress}&startblock=0&endblock=99999999&sort=asc&apikey=${apiKey}`;
+  // const url = `${explorerApiUrl}/api?chainid=${chainId}&module=account&action=tokentx&address=${contractAddress}&startblock=0&endblock=99999999&sort=asc&apikey=${apiKey}`;
+  const url = `${explorerApiUrl}/api?chainid=${chainId}&module=account&action=txlistinternal&address=${contractAddress}&startblock=0&endblock=99999999&sort=asc&apikey=${apiKey}`;
   try {
     const res = await fetch(url);
     const json = await res.json();
