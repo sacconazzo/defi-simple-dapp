@@ -14,44 +14,6 @@ const Contract = {
       type: 'constructor',
     },
     {
-      constant: false,
-      inputs: [],
-      name: '_cleanup',
-      outputs: [],
-      payable: false,
-      stateMutability: 'nonpayable',
-      type: 'function',
-    },
-    {
-      constant: false,
-      inputs: [],
-      name: '_equals',
-      outputs: [],
-      payable: false,
-      stateMutability: 'nonpayable',
-      type: 'function',
-    },
-    {
-      constant: true,
-      inputs: [],
-      name: '_status',
-      outputs: [
-        {
-          internalType: 'uint256',
-          name: 'info_',
-          type: 'uint256',
-        },
-        {
-          internalType: 'uint256',
-          name: 'accounts_',
-          type: 'uint256',
-        },
-      ],
-      payable: false,
-      stateMutability: 'view',
-      type: 'function',
-    },
-    {
       constant: true,
       inputs: [
         {

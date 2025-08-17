@@ -107,17 +107,24 @@ export default function Core() {
   }, [selectedChainId]);
 
   const detectCurrentProvider = () => {
-    let provider;
     if (window.ethereum) {
-      provider = window.ethereum;
+      // Brave Wallet detection
+      if (window.ethereum.isBraveWallet) {
+        console.log('Brave Wallet detected');
+      } else if (window.ethereum.isMetaMask) {
+        console.log('MetaMask detected');
+      } else {
+        console.log('Other EVM wallet detected');
+      }
+      return window.ethereum;
     } else if (window.web3) {
-      provider = window.web3.currentProvider;
+      return window.web3.currentProvider;
     } else {
       console.log(
-        'Non-Ethereum browser detected. You should consider trying MetaMask!'
+        'Non-Ethereum browser detected. You should consider trying MetaMask or Brave Wallet!'
       );
     }
-    return provider;
+    return null;
   };
 
   const getPrice = async priceSymbol => {
