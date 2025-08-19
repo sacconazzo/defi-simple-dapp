@@ -276,10 +276,23 @@ export default function TitleBar(props) {
                 )}
                 {props.userInfo.account && (
                   <VStack spacing={3}>
-                    <Jazzicon
-                      diameter={120}
-                      seed={jsNumberForAddress(props.userInfo.account)}
-                    />
+                    {props.userInfo.domain && (
+                      <Image
+                        boxSize={150}
+                        borderRadius="2xl"
+                        src={`https://api.unstoppabledomains.com/metadata/image-src/${props.userInfo.domain}`}
+                        onClick={() =>
+                          window.open(`https://ud.me/${props.userInfo.domain}`)
+                        }
+                        cursor="pointer"
+                      />
+                    )}
+                    {!props.userInfo.domain && (
+                      <Jazzicon
+                        diameter={120}
+                        seed={jsNumberForAddress(props.userInfo.account)}
+                      />
+                    )}
                     <VStack spacing={1}>
                       <Text fontSize="sm" fontWeight="bold" color="gray.700">
                         Wallet Connected
