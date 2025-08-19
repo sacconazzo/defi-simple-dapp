@@ -31,6 +31,7 @@ jobs:
           REACT_APP_ZKSYNC_ERA_CONTRACT_ADDRESS: ${{ secrets.ZKE_CONTRACT_ADDRESS }}
           REACT_APP_ARBITRUM_CONTRACT_ADDRESS: ${{ secrets.ARB_CONTRACT_ADDRESS }}
           REACT_APP_ETHERSCAN_API_KEY: ${{secrets.ETHERSCAN_API_KEY }}
+          REACT_APP_UNSTOPPABLE_DOMAINS_API_KEY: ${{ secrets.UNSTOPPABLE_DOMAINS_API_KEY }}
 
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v1

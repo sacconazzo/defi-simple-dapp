@@ -35,7 +35,7 @@ import Contract from '../assets/contract-info';
 import CHAINS from '../assets/chains';
 
 const resolution = new Resolution({
-  apiKey: 'aewhvmj5-slysslb_vzbjo6dsyxvys4xebml9rr2rvzpamjm',
+  apiKey: process.env.REACT_APP_UNSTOPPABLE_DOMAINS_API_KEY,
 });
 
 let contract;
