@@ -21,6 +21,7 @@ import { useState, useEffect } from 'react';
 import Web3 from 'web3';
 import { Helmet } from 'react-helmet-async';
 import { FaRocket, FaChartLine, FaCoins, FaGlobe } from 'react-icons/fa';
+import Resolution from '@unstoppabledomains/resolution';
 
 import TitleBar from './TitleBar';
 import Stake from './Stake';
@@ -32,6 +33,10 @@ import BenefitsSection from './BenefitsSection';
 
 import Contract from '../assets/contract-info';
 import CHAINS from '../assets/chains';
+
+const resolution = new Resolution({
+  apiKey: 'aewhvmj5-slysslb_vzbjo6dsyxvys4xebml9rr2rvzpamjm',
+});
 
 let contract;
 let refresh;
@@ -190,6 +195,13 @@ export default function Core() {
         const chainId = await web3.eth.getChainId();
         if (currentChain.id !== chainId) await changeChain(web3, currentChain);
         const account = userAccount[0];
+        const domain = await (async () => {
+          try {
+            return await resolution.reverse(account, 'ETH');
+          } catch (e) {
+            return '';
+          }
+        })();
         const ethBalance = web3.utils.fromWei(
           await web3.eth.getBalance(account),
           'ether'
@@ -210,6 +222,7 @@ export default function Core() {
         saveUserInfo(
           ethBalance,
           account,
+          domain,
           currentChain.id,
           price,
           staked,
@@ -233,6 +246,7 @@ export default function Core() {
   const saveUserInfo = (
     ethBalance,
     account,
+    domain,
     chainId,
     price,
     staked,
@@ -245,6 +259,7 @@ export default function Core() {
     setUserInfo({
       balance,
       account,
+      domain,
       chainId,
       price,
       staked,

@@ -328,7 +328,7 @@ export default function TitleBar(props) {
                       maxW="200px"
                       isTruncated
                     >
-                      {props.userInfo.account}
+                      {props.userInfo.domain || props.userInfo.account}
                     </Text>
                   </Center>
                 </>
