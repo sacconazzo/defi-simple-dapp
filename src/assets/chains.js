@@ -7,7 +7,7 @@ const CHAINS = [
     key: 'ethereum',
     chainName: 'Ethereum Mainnet',
     nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
-    rpcUrls: ['https://eth.llamarpc.com'],
+    rpcUrls: ['https://1rpc.io/eth'],
     blockExplorerUrls: ['https://etherscan.io/'],
     icon: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png',
     priceSymbol: 'ETH',
